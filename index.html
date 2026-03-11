@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Arrow Quest — ローグライトアーチェリー</title>
+  <meta name="description" content="3Dローグライト風アーチェリーゲーム。弓使いを操り敵を倒してボスを撃破せよ！" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Exo+2:wght@400;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Three.js と関連ライブラリをESM CDNで読み込む -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+
+<body>
+  <!-- ゲームキャンバス (Three.jsがここにレンダリング) -->
+  <canvas id="game-canvas"></canvas>
+
+  <!-- UI オーバーレイ全体 -->
+  <div id="ui-overlay">
+
+    <!-- ===== タイトル画面 ===== -->
+    <div id="screen-title" class="screen active">
+      <div class="title-content">
+        <h1 class="title-logo">Arrow Quest</h1>
+        <p class="title-subtitle">ローグライトアーチェリー</p>
+        <div class="title-controls-hint">
+          <span>自動前進</span>
+          <span>A/D：左右よけ</span>
+          <span>クリック：射撃</span>
+          <span>SPACE：横ダッシュ</span>
+        </div>
+        <button id="btn-start" class="btn-primary">ゲームスタート</button>
+      </div>
+    </div>
+
+    <!-- ===== ゲームプレイHUD ===== -->
+    <div id="screen-hud" class="screen">
+      <!-- HPバー -->
+      <div id="hud-hp-container">
+        <label>HP</label>
+        <div id="hud-hp-bar-bg">
+          <div id="hud-hp-bar"></div>
+        </div>
+        <span id="hud-hp-text">100/100</span>
+      </div>
+
+      <!-- コイン -->
+      <div id="hud-coins">
+        <span class="coin-icon">🪙</span>
+        <span id="hud-coin-count">0</span>
+      </div>
+
+      <!-- ラウンド表示 -->
+      <div id="hud-round">
+        <span id="hud-round-text">Round 1</span>
+      </div>
+
+      <!-- 残り敵数 -->
+      <div id="hud-enemies-left">
+        <span id="hud-enemy-count">👹 0</span>
+      </div>
+
+      <!-- アクティブアップグレードアイコン -->
+      <div id="hud-upgrades"></div>
+
+      <!-- ポーズボタン -->
+      <button id="btn-pause" class="btn-icon">⏸</button>
+    </div>
+
+    <!-- ===== アップグレード選択画面 ===== -->
+    <div id="screen-upgrade" class="screen">
+      <div class="upgrade-content">
+        <h2>強化を選んでください</h2>
+        <p class="upgrade-round-info" id="upgrade-round-info">Round 1 クリア！</p>
+        <div id="upgrade-cards"></div>
+      </div>
+    </div>
+
+    <!-- ===== ボス登場演出 ===== -->
+    <div id="screen-boss-intro" class="screen">
+      <div class="boss-intro-content">
+        <h2 class="boss-intro-title">⚠️ BOSS ⚠️</h2>
+        <p id="boss-intro-name">古代の守護巨人</p>
+        <p class="boss-intro-hint">全力で戦え！</p>
+      </div>
+    </div>
+
+    <!-- ===== ポーズメニュー ===== -->
+    <div id="screen-pause" class="screen">
+      <div class="pause-content">
+        <h2>一時停止</h2>
+        <button id="btn-resume" class="btn-primary">再開</button>
+        <button id="btn-restart" class="btn-secondary">タイトルへ</button>
+      </div>
+    </div>
+
+    <!-- ===== ゲームオーバー画面 ===== -->
+    <div id="screen-gameover" class="screen">
+      <div class="gameover-content">
+        <h2>GAME OVER</h2>
+        <p id="gameover-stats"></p>
+        <button id="btn-gameover-restart" class="btn-primary">もう一度</button>
+        <button id="btn-gameover-title" class="btn-secondary">タイトルへ</button>
+      </div>
+    </div>
+
+    <!-- ===== クリア画面 ===== -->
+    <div id="screen-clear" class="screen">
+      <div class="clear-content">
+        <h2 class="clear-title">🏆 VICTORY! 🏆</h2>
+        <p class="clear-subtitle">ボスを討伐した！</p>
+        <p id="clear-stats"></p>
+        <button id="btn-clear-restart" class="btn-primary">もう一度</button>
+        <button id="btn-clear-title" class="btn-secondary">タイトルへ</button>
+      </div>
+    </div>
+
+    <!-- ===== ダメージフラッシュ ===== -->
+    <div id="damage-flash"></div>
+
+    <!-- ===== ラウンド開始アナウンス ===== -->
+    <div id="round-announce"></div>
+
+  </div><!-- /ui-overlay -->
+
+  <!-- ゲームエントリポイント -->
+  <script type="module" src="main.js"></script>
+</body>
+
+</html>
